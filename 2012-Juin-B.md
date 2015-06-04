@@ -96,6 +96,30 @@ Pour le programme B, la partie code est commune, tout le reste est unique aux pr
 
 ### Question 1: Corriger le code
 
+* Dans les appels à `write`, il faut préciser la taille de l'élément à écrire comme 3ème argument.
+  Il faut écrire:
+
+  ```c
+  write(fd, &argv[i], strlen(&argv[i] + 1) * sizeof(char))
+  ```
+  
+  ainsi que
+  
+  ```c
+  write(fd, &space, sizeof(char))
+  ```
+  
+  et
+  
+  ```c
+  write(fd, &newline, sizeof(char))
+  ```
+* La fonction `write_log` retourne `0` si tout s'est bien passé, or cela va déclencher l'affichage de l'erreur dans `main`. Il faut comparer la valeur de retour avec `0`, par exemple:
+
+  ```c
+  if (write_log(...) == 0)
+  ```
+
 ### Question 2: stack_init
 
 ```c
