@@ -3,6 +3,77 @@
 
 ### Question 1: Reader-Writer
 
+Le problème des Reader-Writer consiste à partager une ressource en mémoire entre plusieurs lecteurs (qui ne modifieront pas la ressources) et des writer (qui veulent modifier la ressource).  
+Plusieurs readers peuvent lire la ressource simultanément, mais un writer **doit** être le seul à avoir accès à la ressource. De plus, quand un writer attend que les readers finissent de lire la ressource, aucun nouveau reader ne peut commencer à la lire (le writer est prioritaire), pour éviter que les readers ne prennent possession de la ressource indéfiniement.
+
+Implémentation:
+```c
+int read_count = 0;
+int write_count = 0;
+pthread_mutex_t read_count_mutex;
+pthread_mutex_t write_count_mutex;
+pthread_mutex_t z;
+sem_t wsem;
+sem_t rsem;
+
+
+// Reader
+pthread_mutex_lock(&z);
+sem_wait(&rsem);
+
+pthread_mutex_lock(&read_count_mutex);
+
+readcount++;
+if (readcount == 1) {
+	sem_wait(&wsem);
+}
+
+pthread_mutex_unlock(&read_count_mutex);
+
+sem_post(&rsem);
+pthread_mutex_unlock(&z);
+
+section_critique_read();
+
+pthread_mutex_lock(read_count_mutex);
+
+readcount--;
+if (readcount == 0) {
+	sem_post(&wsem);
+}
+
+pthread_mutex_unlock(read_count_mutex);
+
+
+
+
+// Writer
+pthread_mutex_lock(&write_count_mutex);
+
+write_count++;
+if (write_count == 1) {
+	sem_wait(&rsem);
+}
+
+pthread_mutex_unlock(&write_count_mutex);
+
+sem_wait(&wsem);
+
+section_critique_write();
+
+sem_post(&wsem);
+
+pthread_mutex_lock(&write_count_mutex);
+
+write_count--;
+if (write_count == 0) {
+	sem_post(&rsem);
+}
+
+pthread_mutex_unlock(&write_count_mutex);
+
+```
+
 ### Question 2: Threads vs Processus
 
 Un thread est crée via la fonction `pthread_create`. Un processus est crée via la fonction `fork`
