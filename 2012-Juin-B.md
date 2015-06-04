@@ -79,7 +79,7 @@ void write() {
 
 Un thread est crée via la fonction `pthread_create`. Un processus est crée via la fonction `fork`
 
-On peut terminer l'execution d'un thread ou d'un processus en retournant une valeur dans la fonction `main`.  
+On peut terminer l'execution d'un thread ou d'un processus en retournant une valeur dans la fonction `main` pour le cas du processus, et dans la fonction appelée du thread pour le cas du thread.  
 Dans le cas d'un thread, on peut aussi le terminer en utilisant `pthread_exit`.  
 Dans le cas d'un processus, on peut aussi le terminer via `exit`.
 
