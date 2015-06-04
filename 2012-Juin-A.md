@@ -1,6 +1,41 @@
 # Juin 2012 A
 ## Theorie
 
+### Question 1: Peterson
+L'implémentation:
+```c
+int last = 0;
+int in1 = false;
+int in2 = false;
+
+
+// Thread 1
+in1 = true;
+last = 1;
+while (in2 && last == 1) { }
+section_critique();
+in1 = false;
+
+// Thread 2
+in2 = true;
+last = 2;
+while (in1 && last == 2) { }
+section_critique();
+in2 = false;
+```
+On peut facilement synchroniser 2 threads distincts, il suffit de rendre les variables `last`, `in1` et `in2` globales.
+Pour synchronisez 2 processus différents, il faudra trouver un moyen de partager ces variables, via une zone de mémoire (page) partagée par exemple.
+
+### Question 2: Mémoire
+Suffit de voir le cours pour le schéma:
+
+* Code: Contient les instructions qui seront exécuter par le processeur.
+* Données initialisées: Contient les constantes, les strings ainsi que les variables globales initialisées avec une valeur par défaut utilisés dans le programme
+* Données non-initialisées: Contient les variables globales qui ne sont pas initialisées.
+* Tas (Heap): Contient la mémoire allouée via les `malloc`
+* [Espace vide]
+* Pile (Stack): Contient les variables locales utilisées par les fonctions. A chaque appel de fonction, une zone de mémoire est reservée au dessus du stack pour contenir les variables locales utilisées durant l'execution de la fonction.
+
 ## Exercices
 
 ### Question 1: Corriger le code
