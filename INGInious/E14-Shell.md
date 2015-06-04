@@ -148,7 +148,9 @@ if (c_pid == -1) {
 if (c_pid == 0) {
 
     // Processus fils
-    dup2(open(output_path, "w"), STDOUT_FILENO);
+    //dup2(open(output_path, "w"), STDOUT_FILENO);
+    int fd=open(output_path, O_WRONLY|O_CREAT, S_IRWXU| S_IRWXG | S_IRWXO);
+    dup2(fd,STDOUT_FILENO);
 
     execv(path, argv);
 
