@@ -167,3 +167,23 @@ int main(int argc, char **argv){
         free(filespath);
 }
 ```
+
+### Question 4: Bash &&
+
+Pour éxécuter les programmes `/bin/true` ainsi que `cat`, il faudra utiliser les appels systèmes `fork` et `execve`.  
+Pour récuperer le résultat du programme `/bin/true`, on utilisera `waitpid`.
+Pour lire le contenu du fichier /tmp/t,  il faudra utiliser les appels `open` ainsi que `read`. Pour rediriger le contenu du fichier vers l'entrée de `cat`, on utilisera `dup2`.
+
+### Question 5: Traduction d'assembleur
+
+```c
+int f(int n) {
+        int returnValue = 0;
+        if (n != 5) {
+                returnValue = n + n; 
+        } else {
+                returnValue = 0;
+        }
+        return returnValue;
+}
+```
