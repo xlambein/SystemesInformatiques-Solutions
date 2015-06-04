@@ -95,7 +95,61 @@ Pour le programme B, la partie code est commune, tout le reste est unique aux pr
 
 ### Question 1: Corriger le code
 
-### Question 2: 
+### Question 2: stack_init
 
-### Question 3: 
+struct stack_head *stack_init(){
+        struct stack_head *ret = malloc(sizeof(struct stack_head));
+        pthread_mutex_init(&ret->mutex, NULL);
+        ret->first = NULL;
+        return ret;    
+}
+
+### Question 3: stack_push
+
+int stack_push(struct stack_head *stack, void *data){
+        pthread_mutex_lock(&stack->mutex);
+       
+        // B[SOMMET] --> NULL
+       
+        struct node *n = malloc(sizeof(struct node));
+        n->next = stack->first;
+        n->data = data;
+       
+        // A --> B[SOMMET] --> NULL
+       
+        stack->first = n;
+       
+        // A[SOMMET] --> B --> NULL
+ 
+        pthread_mutex_unlock(&stack->mutex);
+}
+
+### Question 4: stack_is_inside
+
+int __isinside(struct node *n, void *data, int (*equals)(void *, void *)){
+        if(n == NULL){
+                return NULL;
+        }
+        else{
+                if(equals(n->data, data)){
+                        return 1;
+                }
+                else{
+                        return __isinside(n->next, data, equals);
+                }
+        }
+}
+ 
+int stack_is_inside(struct stack *stack, void *data, int (*equals)(void *, void *)){
+        pthread_mutex_lock(&stack->mutex);
+        int res = __isinside(stack->first, data, equals);
+        pthread_mutex_unlock(&stack->mutex);
+       
+        return res;
+}
+
+### Question 5: Shell ||
+**Note:** Y'as une petite erreur dans l'énoncé, c'est pas || mais &&.
+
+### Question 6: Traduction d'assembleur
 
