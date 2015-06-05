@@ -180,8 +180,8 @@ Pour lire le contenu du fichier /tmp/t,  il faudra utiliser les appels `open` ai
 
 ```c
 int f(int n) {
-        int returnValue = 0;
-        if (n != 5) {
+        int returnValue;
+        if (n > 5) {
                 returnValue = n + n;
         } else {
                 returnValue = 0;
