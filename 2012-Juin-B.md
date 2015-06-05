@@ -184,3 +184,11 @@ int stack_is_inside(struct stack *stack, void *data, int (*equals)(void *, void 
 
 ### Question 6: Traduction d'assembleur
 
+```c
+int f(int a, int b){
+	if(a!=b){
+		return 1252;
+	}
+	return a+b;
+}
+```
